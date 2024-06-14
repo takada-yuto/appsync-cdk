@@ -1,0 +1,8 @@
+mutation AddTodo($addTodoInput: AddTodoInput!) {
+  addTodo(addTodoInput: $addTodoInput) {
+    id
+    title
+    completed
+    createdAt
+  }
+}

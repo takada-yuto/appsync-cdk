@@ -1,0 +1,8 @@
+mutation ToggleTodo($toggleTodoInput: ToggleTodoInput!) {
+  toggleTodo(toggleTodoInput: $toggleTodoInput) {
+    id
+    title
+    completed
+    createdAt
+  }
+}
