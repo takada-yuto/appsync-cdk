@@ -13,6 +13,7 @@ export const handler: AppSyncResolverHandler<
       console.log("TODO_TABLE was not specified")
       return null
     }
+    console.log("getTodooooooooooooooooo")
 
     const data = await docClient
       .scan({ TableName: process.env.TODO_TABLE })

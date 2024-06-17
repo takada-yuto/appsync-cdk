@@ -86,6 +86,26 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
 
     todoTable.grantReadWriteData(deleteTodoLambda)
 
+    new cdk.aws_lambda.Function(this, "Aud2TxtFunction", {
+      functionName: "aud2txt",
+      runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
+      handler: "aud2txt.handler",
+      code: cdk.aws_lambda.Code.fromAsset(
+        path.join(__dirname, "../lambda/python"),
+        {
+          bundling: {
+            image: cdk.aws_lambda.Runtime.PYTHON_3_10.bundlingImage,
+            command: [
+              "bash",
+              "-c",
+              "pip install -r requirements.txt -t /asset-output && cp -au . /asset-output",
+            ],
+          },
+        }
+      ),
+      timeout: cdk.Duration.minutes(3),
+    })
+
     // DataSource
     const getTodosDataSource = todoApi.addLambdaDataSource(
       "getTodosDataSource",

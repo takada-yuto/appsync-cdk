@@ -10,6 +10,9 @@
 */**/.cdk.staging
 */**/cdk.out
 
+# SAM asset directory
+*/**/.aws-sam
+
 # dependencies
 */**/.pnp
 */**/.pnp.js
