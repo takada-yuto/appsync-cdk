@@ -8,7 +8,7 @@ export const FILTER_VALUES = [
   "ALL",
   "COMPLETED",
   "NOT COMPLETED",
-  "PERFECT",
+  "MUST",
 ] as const
 
 type FilterTupel = typeof FILTER_VALUES
@@ -29,7 +29,7 @@ export const TodoScreen = () => {
         return data.getTodos.filter((todo) => todo.completed)
       case "NOT COMPLETED":
         return data.getTodos.filter((todo) => !todo.completed)
-      case "PERFECT":
+      case "MUST":
         return data.getTodos.filter((todo) => todo.title.includes("帰る"))
     }
   }, [data, filter])

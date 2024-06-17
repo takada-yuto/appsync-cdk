@@ -4,12 +4,12 @@ import { Construct } from "constructs"
 import path = require("path")
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class BackendStack extends cdk.Stack {
+export class AppsyncTodoBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
     // DynamoDB
-    const todoTable = new cdk.aws_dynamodb.Table(this, "TodoTable", {
+    const todoTable = new cdk.aws_dynamodb.Table(this, "AppsyncTodoTable", {
       billingMode: cdk.aws_dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       partitionKey: {
@@ -19,18 +19,22 @@ export class BackendStack extends cdk.Stack {
     })
 
     // AppSync
-    const todoApi = new cdk.aws_appsync.GraphqlApi(this, "TodoGraphqlApi", {
-      name: "todo-graphql-api",
-      schema: cdk.aws_appsync.SchemaFile.fromAsset("graphql/schema.graphql"),
-      authorizationConfig: {
-        defaultAuthorization: {
-          authorizationType: cdk.aws_appsync.AuthorizationType.API_KEY,
-          apiKeyConfig: {
-            expires: cdk.Expiration.after(cdk.Duration.days(365)),
+    const todoApi = new cdk.aws_appsync.GraphqlApi(
+      this,
+      "AppsyncTodoGraphqlApi",
+      {
+        name: "AppsyncTodo-graphql-api",
+        schema: cdk.aws_appsync.SchemaFile.fromAsset("graphql/schema.graphql"),
+        authorizationConfig: {
+          defaultAuthorization: {
+            authorizationType: cdk.aws_appsync.AuthorizationType.API_KEY,
+            apiKeyConfig: {
+              expires: cdk.Expiration.after(cdk.Duration.days(365)),
+            },
           },
         },
-      },
-    })
+      }
+    )
 
     // Lambda function
     const commonLambdaNodeJsProps: Omit<

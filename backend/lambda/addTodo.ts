@@ -19,7 +19,7 @@ export const handler: AppSyncResolverHandler<
     }
 
     const newTodo: Todo = {
-      id: uuid,
+      id: `todo-${uuid}`,
       ...addTodoInput,
       completed: false,
       createdAt: Date.now(),
