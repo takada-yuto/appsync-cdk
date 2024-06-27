@@ -1,0 +1,7 @@
+mutation CreateDownloadPresignedUrl($filename: String!, $id: String!) {
+  createDownloadPresignedUrl(filename: $filename, id: $id) {
+    bucket
+    key
+    presignedUrl
+  }
+}

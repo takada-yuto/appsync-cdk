@@ -1,0 +1,5 @@
+mutation AudToTxt($presignedUrl: String!) {
+  audToTxt(presignedUrl: $presignedUrl) {
+    text
+  }
+}

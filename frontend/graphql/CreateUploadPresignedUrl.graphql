@@ -1,0 +1,7 @@
+mutation CreateUploadPresignedUrl($filename: String!, $id: String!) {
+  createUploadPresignedUrl(filename: $filename, id: $id) {
+    bucket
+    key
+    presignedUrl
+  }
+}

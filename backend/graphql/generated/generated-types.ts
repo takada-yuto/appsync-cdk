@@ -13,15 +13,24 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   AWSTimestamp: { input: any; output: any; }
+  AWSURL: { input: any; output: any; }
 };
 
 export type AddTodoInput = {
   title: Scalars['String']['input'];
 };
 
+export type AudText = {
+  __typename?: 'AudText';
+  text: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addTodo?: Maybe<Todo>;
+  audToTxt?: Maybe<AudText>;
+  createDownloadPresignedUrl?: Maybe<PresignedUrl>;
+  createUploadPresignedUrl?: Maybe<PresignedUrl>;
   deleteTodo?: Maybe<Scalars['Boolean']['output']>;
   toggleTodo?: Maybe<Todo>;
 };
@@ -32,6 +41,23 @@ export type MutationAddTodoArgs = {
 };
 
 
+export type MutationAudToTxtArgs = {
+  presignedUrl: Scalars['String']['input'];
+};
+
+
+export type MutationCreateDownloadPresignedUrlArgs = {
+  filename: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationCreateUploadPresignedUrlArgs = {
+  filename: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationDeleteTodoArgs = {
   id: Scalars['ID']['input'];
 };
@@ -39,6 +65,13 @@ export type MutationDeleteTodoArgs = {
 
 export type MutationToggleTodoArgs = {
   toggleTodoInput: ToggleTodoInput;
+};
+
+export type PresignedUrl = {
+  __typename?: 'PresignedUrl';
+  bucket?: Maybe<Scalars['String']['output']>;
+  key?: Maybe<Scalars['String']['output']>;
+  presignedUrl?: Maybe<Scalars['AWSURL']['output']>;
 };
 
 export type Query = {

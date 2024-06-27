@@ -1,10 +1,21 @@
 scalar AWSTimestamp
+scalar AWSURL
 
 type Todo {
   id: ID!
   title: String!
   completed: Boolean!
   createdAt: AWSTimestamp!
+}
+
+type PresignedUrl {
+  bucket: String
+  key: String
+  presignedUrl: AWSURL
+}
+
+type AudText {
+  text: String!
 }
 
 type Query {
@@ -24,4 +35,7 @@ type Mutation {
   addTodo(addTodoInput: AddTodoInput!): Todo
   toggleTodo(toggleTodoInput: ToggleTodoInput!): Todo
   deleteTodo(id: ID!): Boolean
+  createUploadPresignedUrl(filename: String!, id: String!): PresignedUrl
+  createDownloadPresignedUrl(filename: String!, id: String!): PresignedUrl
+  audToTxt(presignedUrl: String!): AudText
 }
