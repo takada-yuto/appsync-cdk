@@ -4,6 +4,8 @@ import { TodoInput } from "../Input"
 import { useMemo, useState } from "react"
 import { TodoFilter } from "../Filter"
 import { ConvertAudio } from "@/components/ConvertAudio"
+import { LoginButton, LogoutButton } from "@/components/AuthenticateButton"
+import { IsLoggedIn } from "@/components/IsLoggedin"
 
 export const FILTER_VALUES = [
   "ALL",
@@ -40,6 +42,9 @@ export const TodoScreen = () => {
       <TodoInput />
       <TodoFilter filter={filter} setFilter={setFilter} />
       <TodoList todos={todos} />
+      <IsLoggedIn />
+      <LoginButton />
+      <LogoutButton />
       <ConvertAudio />
     </div>
   )

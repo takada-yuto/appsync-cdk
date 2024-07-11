@@ -4,14 +4,14 @@ import {
   MappingTemplate,
   Resolver,
 } from "aws-cdk-lib/aws-appsync"
+import { Platform } from "aws-cdk-lib/aws-ecr-assets"
 import { Runtime } from "aws-cdk-lib/aws-lambda"
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs"
 import { Bucket, HttpMethods } from "aws-cdk-lib/aws-s3"
 import { Construct } from "constructs"
 import path = require("path")
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class AppsyncTodoBackendStack extends cdk.Stack {
+export class AppsyncPlaygroundBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
@@ -29,21 +29,17 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
 
     // IAM
     // オブジェクトを書き込むLambda
-    const iamRoleForLambdaPut = new cdk.aws_iam.Role(
-      this,
-      "iamRoleForLambdaPut",
-      {
-        assumedBy: new cdk.aws_iam.ServicePrincipal("lambda.amazonaws.com"),
-        managedPolicies: [
-          cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-            "service-role/AWSLambdaBasicExecutionRole"
-          ),
-        ],
-      }
-    )
+    const iamRoleForLambda = new cdk.aws_iam.Role(this, "iamRoleForLambda", {
+      assumedBy: new cdk.aws_iam.ServicePrincipal("lambda.amazonaws.com"),
+      managedPolicies: [
+        cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
+          "service-role/AWSLambdaBasicExecutionRole"
+        ),
+      ],
+    })
 
-    resource.grantPut(iamRoleForLambdaPut)
-    resource.grantRead(iamRoleForLambdaPut)
+    resource.grantPut(iamRoleForLambda)
+    resource.grantRead(iamRoleForLambda)
 
     // DynamoDB
     const todoTable = new cdk.aws_dynamodb.Table(this, "AppsyncTodoTable", {
@@ -55,12 +51,133 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
       },
     })
 
+    //   // User Pool
+    //   const userPool = new cdk.aws_cognito.UserPool(this, "userpool", {
+    //     userPoolName: "sample-user-pool",
+    //     selfSignUpEnabled: true,
+    //     signInAliases: {
+    //       email: true,
+    //     },
+    //     accountRecovery: cdk.aws_cognito.AccountRecovery.EMAIL_ONLY,
+    //   })
+
+    //   const provider = new UserPoolIdentityProviderGoogle(this, "Google", {
+    //     userPool,
+    //     clientId: process.env.GOOGLE_CLIENT_ID!,
+    //     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+
+    //     // Email scope is required, because the default is 'profile' and that doesn't allow Cognito
+    //     // to fetch the user's email from his Google account after the user does an SSO with Google
+    //     scopes: ["email"],
+
+    //     // Map fields from the user's Google profile to Cognito user fields, when the user is auto-provisioned
+    //     attributeMapping: {
+    //         email: ProviderAttribute.GOOGLE_EMAIL,
+    //     },
+    // });
+
+    //   // User Pool Client
+    //   const client = new UserPoolClient(this, "UserPoolClient", {
+    //     userPool,
+    //     generateSecret: true,
+    //     supportedIdentityProviders: [UserPoolClientIdentityProvider.GOOGLE],
+    //     oAuth: {
+    //         callbackUrls: ['https://d3ndgd8yatluy8.cloudfront.net'],
+    //     },
+    //   });
+
+    //   client.node.addDependency(provider)
+
+    // // ユーザープールの作成
+    // const userPool = new cdk.aws_cognito.UserPool(this, "MyUserPool", {
+    //   signInAliases: {
+    //     email: true,
+    //   },
+    //   selfSignUpEnabled: true,
+    //   passwordPolicy: {
+    //     minLength: 8,
+    //     requireLowercase: true,
+    //     requireUppercase: true,
+    //     requireDigits: true,
+    //   },
+    //   mfa: cdk.aws_cognito.Mfa.OPTIONAL,
+    //   mfaSecondFactor: {
+    //     sms: true,
+    //     otp: true,
+    //   },
+    // })
+
+    // // Google フェデレーテッドアイデンティティプロバイダーの作成
+    // // Secrets Managerにシークレットを作成
+    // const googleClientSecret = new cdk.aws_secretsmanager.Secret(
+    //   this,
+    //   "GenerateSecretString",
+    //   {
+    //     generateSecretString: {
+    //       secretStringTemplate: JSON.stringify({
+    //         clientSecretValue: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    //       }),
+    //       generateStringKey: "password",
+    //     },
+    //   }
+    // )
+
+    // const secret = cdk.aws_secretsmanager.Secret.fromSecretAttributes(
+    //   this,
+    //   "CognitoClientSecret",
+    //   {
+    //     secretCompleteArn: googleClientSecret.secretArn,
+    //   }
+    // ).secretValue
+
+    // const googleProvider = new cdk.aws_cognito.UserPoolIdentityProviderGoogle(
+    //   this,
+    //   "Google",
+    //   {
+    //     userPool,
+    //     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    //     clientSecretValue: secret,
+    //     // @ts-ignore
+    //     authorizeScopes: ["email"],
+    //   }
+    // )
+
+    // // ユーザープールクライアントの作成
+    // const userPoolClient = userPool.addClient("MyUserPoolClient", {
+    //   oAuth: {
+    //     flows: {
+    //       authorizationCodeGrant: true,
+    //     },
+    //     scopes: [
+    //       OAuthScope.PHONE,
+    //       OAuthScope.EMAIL,
+    //       OAuthScope.OPENID,
+    //       OAuthScope.PROFILE,
+    //     ],
+    //     callbackUrls: [
+    //       "https://d3ndgd8yatluy8.cloudfront.net/api/auth/callback/cognito",
+    //     ],
+    //   },
+    //   generateSecret: true,
+    // })
+
+    // // フェデレーテッドアイデンティティプロバイダーの接続
+    // userPoolClient.node.addDependency(googleProvider)
+
+    // // ドメインの作成
+    // new cdk.aws_cognito.UserPoolDomain(this, "CognitoDomain", {
+    //   userPool: userPool,
+    //   cognitoDomain: {
+    //     domainPrefix: "appsync-playground",
+    //   },
+    // })
+
     // AppSync
-    const todoApi = new cdk.aws_appsync.GraphqlApi(
+    const appsyncPlaygroundApi = new cdk.aws_appsync.GraphqlApi(
       this,
-      "AppsyncTodoGraphqlApi",
+      "AppsyncPlaygrondApi",
       {
-        name: "AppsyncTodo-graphql-api",
+        name: "AppsyncPlayground-api",
         schema: cdk.aws_appsync.SchemaFile.fromAsset("graphql/schema.graphql"),
         authorizationConfig: {
           defaultAuthorization: {
@@ -123,47 +240,6 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
 
     todoTable.grantReadWriteData(deleteTodoLambda)
 
-    // const lambdaLayer = new LayerVersion(this, "lambdaPythonLayer", {
-    //   code: cdk.aws_lambda.Code.fromAsset(
-    //     path.join(__dirname, "../lambda/python/layer"),
-    //     {
-    //       bundling: {
-    //         image: cdk.aws_lambda.Runtime.PYTHON_3_10.bundlingImage,
-    //         command: [
-    //           "bash",
-    //           "-c",
-    //           "pip install -r requirements.txt -t /asset-output && cp -au . /asset-output",
-    //         ],
-    //       },
-    //     }
-    //   ),
-    //   compatibleArchitectures: [
-    //     cdk.aws_lambda.Architecture.X86_64,
-    //     cdk.aws_lambda.Architecture.ARM_64,
-    //   ],
-    // })
-
-    const audToTxtLambda = new cdk.aws_lambda.DockerImageFunction(
-      this,
-      "AudToTxt",
-      {
-        code: cdk.aws_lambda.DockerImageCode.fromImageAsset("."),
-        timeout: cdk.Duration.minutes(3),
-        role: iamRoleForLambdaPut,
-      }
-    )
-
-    // const audToTxtLambda = new cdk.aws_lambda.Function(this, "AudToTxt", {
-    //   runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
-    //   handler: "audToTxt.handler",
-    //   code: cdk.aws_lambda.Code.fromAsset(
-    //     path.join(__dirname, "../lambda/python/function")
-    //   ),
-    //   layers: [lambdaLayer],
-    //   timeout: cdk.Duration.minutes(3),
-    //   role: iamRoleForLambdaPut,
-    // })
-
     const createUploadPresignedUrlLambda =
       new cdk.aws_lambda_nodejs.NodejsFunction(
         this,
@@ -172,7 +248,7 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
           entry: path.join(__dirname, "../lambda/create-put-presigned-url.ts"),
           handler: "handler",
           runtime: Runtime.NODEJS_16_X,
-          role: iamRoleForLambdaPut,
+          role: iamRoleForLambda,
           environment: {
             REGION: this.region,
             BUCKET: resource.bucketName,
@@ -189,7 +265,7 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
           entry: path.join(__dirname, "../lambda/create-get-presigned-url.ts"),
           handler: "handler",
           runtime: Runtime.NODEJS_16_X,
-          role: iamRoleForLambdaPut,
+          role: iamRoleForLambda,
           environment: {
             REGION: this.region,
             BUCKET: resource.bucketName,
@@ -199,41 +275,37 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
       )
 
     // DataSource
-    const getTodosDataSource = todoApi.addLambdaDataSource(
+    const getTodosDataSource = appsyncPlaygroundApi.addLambdaDataSource(
       "getTodosDataSource",
       getTodosLambda
     )
 
-    const addTodoDataSource = todoApi.addLambdaDataSource(
+    const addTodoDataSource = appsyncPlaygroundApi.addLambdaDataSource(
       "addTodoDataSource",
       addTodoLambda
     )
 
-    const audToTxtSource = todoApi.addLambdaDataSource(
-      "audToTxtSource",
-      audToTxtLambda
-    )
-
-    const toggleTodoDataSource = todoApi.addLambdaDataSource(
+    const toggleTodoDataSource = appsyncPlaygroundApi.addLambdaDataSource(
       "toggleTodoDataSource",
       toggleTodoLambda
     )
 
-    const deleteTodoDataSource = todoApi.addLambdaDataSource(
+    const deleteTodoDataSource = appsyncPlaygroundApi.addLambdaDataSource(
       "deleteTodoDataSource",
       deleteTodoLambda
     )
 
-    const createUploadPresignedUrlDataSource = todoApi.addLambdaDataSource(
-      "createUploadPresignedUrlLambda",
-      createUploadPresignedUrlLambda
-    )
+    const createUploadPresignedUrlDataSource =
+      appsyncPlaygroundApi.addLambdaDataSource(
+        "createUploadPresignedUrlLambda",
+        createUploadPresignedUrlLambda
+      )
 
     const createUploadPresignedUrlFunction = new AppsyncFunction(
       this,
       "createUploadPresignedUrlFunction",
       {
-        api: todoApi,
+        api: appsyncPlaygroundApi,
         dataSource: createUploadPresignedUrlDataSource,
         name: "CreateUploadPresignedUrlFunction",
         requestMappingTemplate: MappingTemplate.lambdaRequest(),
@@ -241,16 +313,17 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
       }
     )
 
-    const createDownloadPresignedUrlDataSource = todoApi.addLambdaDataSource(
-      "createDownloadPresignedUrlLambda",
-      createDownloadPresignedUrlLambda
-    )
+    const createDownloadPresignedUrlDataSource =
+      appsyncPlaygroundApi.addLambdaDataSource(
+        "createDownloadPresignedUrlLambda",
+        createDownloadPresignedUrlLambda
+      )
 
     const createDownloadPresignedUrlFunction = new AppsyncFunction(
       this,
       "createDownloadPresignedUrlFunction",
       {
-        api: todoApi,
+        api: appsyncPlaygroundApi,
         dataSource: createDownloadPresignedUrlDataSource,
         name: "CreateDownloadPresignedUrlFunction",
         requestMappingTemplate: MappingTemplate.lambdaRequest(),
@@ -268,11 +341,6 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
       fieldName: "addTodo",
     })
 
-    audToTxtSource.createResolver("MutationAudToTxtResolver", {
-      typeName: "Mutation",
-      fieldName: "audToTxt",
-    })
-
     toggleTodoDataSource.createResolver("MutationToggleTodoResolver", {
       typeName: "Mutation",
       fieldName: "toggleTodo",
@@ -284,7 +352,7 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
     })
 
     new Resolver(this, "CreateUploadPresignedUrlResolver", {
-      api: todoApi,
+      api: appsyncPlaygroundApi,
       typeName: "Mutation",
       fieldName: "createUploadPresignedUrl",
       pipelineConfig: [createUploadPresignedUrlFunction],
@@ -295,7 +363,7 @@ export class AppsyncTodoBackendStack extends cdk.Stack {
     })
 
     new Resolver(this, "CreateDownloadPresignedUrlResolver", {
-      api: todoApi,
+      api: appsyncPlaygroundApi,
       typeName: "Mutation",
       fieldName: "createDownloadPresignedUrl",
       pipelineConfig: [createDownloadPresignedUrlFunction],
