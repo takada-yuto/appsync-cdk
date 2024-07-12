@@ -3,6 +3,7 @@ import {
   useDeleteTodoMutation,
   useToggleTodoMutation,
 } from "@/graphql/generated/generated-types"
+import Image from "next/image"
 import { useCallback, useState } from "react"
 
 type TodoItemProps = {
@@ -61,7 +62,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           onClick={handleDeleteTodo}
           className="text-blue-500 h-6 mx-2 w-6"
         >
-          <img src={"/trash_can.png"} alt="Delete" className="h-full w-full" />
+          <Image src={"/trash_can.png"} alt="Delete" width={500} height={300} />
         </button>
       )}
     </div>

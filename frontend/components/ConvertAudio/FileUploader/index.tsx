@@ -128,7 +128,7 @@ export const FileUploader: FC<Props> = ({ onFileUpload }) => {
       }}
     >
       <input {...getInputProps()} />
-      <FontAwesomeIcon icon={faUpload} style={{ fontSize: 50 }} />
+      {/* <FontAwesomeIcon icon={faUpload} style={{ fontSize: 50 }} /> */}
       {isDragActive ? (
         <p className="text-center p-3 m-0">ここにファイルをドロップ</p>
       ) : (
