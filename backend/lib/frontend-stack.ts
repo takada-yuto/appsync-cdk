@@ -1,69 +1,17 @@
-import * as cdk from "aws-cdk-lib"
-import { CfnApp, CfnBranch } from "aws-cdk-lib/aws-amplify"
-import * as cloudFront from "aws-cdk-lib/aws-cloudfront"
-import { BuildSpec } from "aws-cdk-lib/aws-codebuild"
-import { Platform } from "aws-cdk-lib/aws-ecr-assets"
-import * as s3 from "aws-cdk-lib/aws-s3"
-import { Construct } from "constructs"
-import path = require("path")
-import * as amplify from "@aws-cdk/aws-amplify-alpha"
-import * as codebuild from "aws-cdk-lib/aws-codebuild"
+import * as cdk from 'aws-cdk-lib';
+import { CfnApp, CfnBranch } from 'aws-cdk-lib/aws-amplify';
+import * as cloudFront from 'aws-cdk-lib/aws-cloudfront';
+import { BuildSpec } from 'aws-cdk-lib/aws-codebuild';
+import { Platform } from 'aws-cdk-lib/aws-ecr-assets';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { Construct } from 'constructs';
+import path = require('path');
+// import * as amplify from "@aws-cdk/aws-amplify-alpha"
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 
 export class AppsyncPlaygroundFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props)
-
-    const appsyncPlaygroundFrontendBucket = new s3.Bucket(
-      this,
-      "AppsyncPlaygroundFrontendBucket",
-      {
-        websiteIndexDocument: "index.html",
-        autoDeleteObjects: true,
-        removalPolicy: cdk.RemovalPolicy.DESTROY,
-      }
-    )
-
-    const appsyncPlaygroundOAI = new cloudFront.OriginAccessIdentity(
-      this,
-      "AppsyncPlaygroundOAI"
-    )
-
-    appsyncPlaygroundFrontendBucket.grantRead(appsyncPlaygroundOAI)
-
-    const todoWebDestribution = new cloudFront.CloudFrontWebDistribution(
-      this,
-      "AppsyncPlaygroundWebDestribution",
-      {
-        originConfigs: [
-          {
-            s3OriginSource: {
-              s3BucketSource: appsyncPlaygroundFrontendBucket,
-              originAccessIdentity: appsyncPlaygroundOAI,
-            },
-            behaviors: [{ isDefaultBehavior: true }],
-          },
-        ],
-      }
-    )
-
-    new cdk.aws_s3_deployment.BucketDeployment(
-      this,
-      "AppsyncPlaygroundBucketDeployment",
-      {
-        sources: [
-          cdk.aws_s3_deployment.Source.asset(
-            path.resolve(__dirname, "../../frontend/.next")
-          ),
-        ],
-        destinationBucket: appsyncPlaygroundFrontendBucket,
-        distribution: todoWebDestribution,
-        distributionPaths: ["/*"],
-      }
-    )
-
-    new cdk.CfnOutput(this, "AppsyncPlaygroundWebDestributionName", {
-      value: todoWebDestribution.distributionDomainName,
-    })
+    super(scope, id, props);
 
     // // Lambda 関数の実行ロールを作成
     // const lambdaExecutionRole = new cdk.aws_iam.Role(

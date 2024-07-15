@@ -19,6 +19,8 @@
     "@graphql-codegen/typescript-operations": "^4.2.1",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@types/uuid": "^10.0.0",
+    "aws-amplify": "^5.3.1",
+    "aws-appsync-auth-link": "^3.0.7",
     "axios": "^1.7.2",
     "graphql": "^16.8.2",
     "next": "14.2.3",
