@@ -12,6 +12,7 @@ import { Amplify, Auth } from 'aws-amplify';
 import { createAuthLink } from 'aws-appsync-auth-link';
 import awsconfig from './aws-exports';
 import awsconfiglocal from './aws-exports-local';
+import { useEffect, useState } from 'react';
 
 // ローカル環境かどうかを判断する関数
 function isLocalEnvironment() {
@@ -51,10 +52,47 @@ const client = new ApolloClient({
 });
 
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    // ログインチェック
+    Auth.currentAuthenticatedUser()
+      .then((user) => {
+        // タスクを取得
+        setIsAuthenticated(true);
+      })
+      .catch((err) => {});
+  }, []);
   return (
     <ApolloProvider client={client}>
-      <Header />
-      <TodoScreen />
+      {isAuthenticated ? (
+        <>
+          <Header />
+          <h4 className="text-center mb-4">ユーザーはログインしています。</h4>
+          <button
+            className="block w-full px-4 py-2 rounded-md bg-blue-500 text-white text-center mb-4"
+            onClick={() => Auth.signOut().then(() => setIsAuthenticated(false))}
+          >
+            サインアウト
+          </button>
+          <TodoScreen />
+        </>
+      ) : (
+        <>
+          <div className="bg-white min-h-screen flex flex-col items-center justify-center">
+            <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+              <h4 className="text-center mb-4">
+                ユーザーはログインしていません。
+              </h4>
+              <button
+                className="block w-full px-4 py-2 rounded-md bg-blue-500 text-white text-center"
+                onClick={() => Auth.federatedSignIn()}
+              >
+                ログイン/サインアップ
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </ApolloProvider>
   );
 }

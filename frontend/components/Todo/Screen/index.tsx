@@ -20,16 +20,6 @@ export type Filter = FilterTupel[number];
 export const TodoScreen = () => {
   const { data } = useGetTodosQuery();
   const [filter, setFilter] = useState<Filter>('ALL');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  useEffect(() => {
-    // ログインチェック
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        // タスクを取得
-        setIsAuthenticated(true);
-      })
-      .catch((err) => {});
-  }, []);
 
   const todos = useMemo(() => {
     if (!data) return [];
@@ -48,24 +38,6 @@ export const TodoScreen = () => {
 
   return (
     <div className="w-full px-8 flex flex-col">
-      {isAuthenticated ? (
-        <>
-          <h4>ユーザーはログインしています。</h4>
-          <button
-            color="primary"
-            onClick={() => Auth.signOut().then(() => setIsAuthenticated(false))}
-          >
-            サインアウト
-          </button>
-        </>
-      ) : (
-        <>
-          <h4>ユーザーはログインしていません。</h4>
-          <button color="primary" onClick={() => Auth.federatedSignIn()}>
-            ログイン/サインアップ
-          </button>
-        </>
-      )}
       <TodoInput />
       <TodoFilter filter={filter} setFilter={setFilter} />
       <TodoList todos={todos} />
