@@ -14,7 +14,12 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        ivory: '#f8f8f0',
+        ivory: '#F5F5DC',
+        lightblue: '#B0C4DE',
+        lightgray: '#778899',
+      },
+      fontFamily: {
+        Raleway: ['Raleway', 'sans-serif'],
       },
     },
   },

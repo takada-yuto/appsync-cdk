@@ -1,9 +1,9 @@
-import { FILTER_VALUES, Filter } from "../Screen"
+import { FILTER_VALUES, Filter } from '../Screen';
 
 type TodoFilterProps = {
-  filter: Filter
-  setFilter: (filter: Filter) => void
-}
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
+};
 
 export const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
   return (
@@ -13,14 +13,14 @@ export const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
           key={filterValue}
           className={`px-4 py-2 rounded ${
             filter === filterValue
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-black"
-          } hover:bg-blue-600 transition-colors duration-200`}
+              ? 'bg-lightgray text-black border-2'
+              : 'bg-ivory-500 text-black'
+          } hover:bg-lightgray transition-colors duration-200`}
           onClick={() => setFilter(filterValue)}
         >
           {filterValue}
         </button>
       ))}
     </div>
-  )
-}
+  );
+};

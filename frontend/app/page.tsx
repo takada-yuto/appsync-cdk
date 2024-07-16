@@ -64,35 +64,46 @@ export default function Home() {
   }, []);
   return (
     <ApolloProvider client={client}>
-      {isAuthenticated ? (
-        <>
-          <Header />
-          <h4 className="text-center mb-4">ユーザーはログインしています。</h4>
-          <button
-            className="block w-full px-4 py-2 rounded-md bg-blue-500 text-white text-center mb-4"
-            onClick={() => Auth.signOut().then(() => setIsAuthenticated(false))}
-          >
-            サインアウト
-          </button>
-          <TodoScreen />
-        </>
-      ) : (
-        <>
-          <div className="bg-ivory min-h-screen flex flex-col items-center justify-center">
-            <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-200">
-              <h4 className="text-center mb-4 text-gray-700 font-semibold">
-                ユーザーはログインしていません。
-              </h4>
-              <button
-                className="block w-full px-4 py-2 rounded-md bg-blue-600 text-white text-center hover:bg-blue-700 transition duration-300"
-                onClick={() => Auth.federatedSignIn()}
-              >
-                ログイン/サインアップ
-              </button>
+      <div
+        className="relative min-h-screen flex flex-col items-centerbg-cover bg-center"
+        style={{
+          backgroundImage: 'url(/background.jpeg)',
+          backgroundSize: '30%',
+          backgroundPosition: 'center',
+        }}
+      >
+        {isAuthenticated ? (
+          <>
+            <Header />
+            <button
+              className="block w-full px-4 py-2 mb-4 rounded-md bg-gradient-to-r from-ivory-500 to-ivory-500 shadow-md text-black text-center hover:bg-lightgray transition duration-300"
+              onClick={() =>
+                Auth.signOut().then(() => setIsAuthenticated(false))
+              }
+            >
+              Logout
+            </button>
+            <TodoScreen />
+          </>
+        ) : (
+          <>
+            <div className="relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center">
+              <div className="absolute inset-0 bg-black opacity-50"></div>
+              <div className="relative w-full max-w-md p-8 bg-ivory bg-opacity-80 shadow-lg rounded-lg border border-gray-200">
+                <h4 className="text-center mb-4 text-gray-700 font-semibold">
+                  Welcome to web
+                </h4>
+                <button
+                  className="block w-full px-4 py-2 rounded-md bg-lightblue text-black text-center hover:bg-lightgray transition duration-300"
+                  onClick={() => Auth.federatedSignIn()}
+                >
+                  Login
+                </button>
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </ApolloProvider>
   );
 }
