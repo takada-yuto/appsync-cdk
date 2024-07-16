@@ -78,13 +78,13 @@ export default function Home() {
         </>
       ) : (
         <>
-          <div className="bg-white min-h-screen flex flex-col items-center justify-center">
-            <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
-              <h4 className="text-center mb-4">
+          <div className="bg-ivory min-h-screen flex flex-col items-center justify-center">
+            <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-200">
+              <h4 className="text-center mb-4 text-gray-700 font-semibold">
                 ユーザーはログインしていません。
               </h4>
               <button
-                className="block w-full px-4 py-2 rounded-md bg-blue-500 text-white text-center"
+                className="block w-full px-4 py-2 rounded-md bg-blue-600 text-white text-center hover:bg-blue-700 transition duration-300"
                 onClick={() => Auth.federatedSignIn()}
               >
                 ログイン/サインアップ
