@@ -6,9 +6,6 @@ export const Header = () => {
       <h1 className={`text-3xl text-center ${RampartOneFont.className}`}>
         Todo App
       </h1>
-      <h2 className={`text-xl text-center ${RalewayFont.className}`}>
-        Hello World
-      </h2>
     </header>
   );
 };
