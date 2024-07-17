@@ -1,3 +1,4 @@
+import { RalewayFont } from '@/lib/font';
 import { FILTER_VALUES, Filter } from '../Screen';
 
 type TodoFilterProps = {
@@ -15,7 +16,9 @@ export const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
             filter === filterValue
               ? 'bg-lightgray text-black border-2'
               : 'bg-ivory-500 text-black'
-          } hover:bg-lightgray transition-colors duration-200`}
+          } hover:bg-lightgray transition-colors duration-200 ${
+            RalewayFont.className
+          }`}
           onClick={() => setFilter(filterValue)}
         >
           {filterValue}

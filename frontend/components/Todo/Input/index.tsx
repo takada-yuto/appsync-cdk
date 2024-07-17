@@ -2,6 +2,7 @@ import {
   namedOperations,
   useAddTodoMutation,
 } from '@/graphql/generated/generated-types';
+import { RalewayFont } from '@/lib/font';
 import { useCallback, useState } from 'react';
 
 export const TodoInput = () => {
@@ -36,6 +37,8 @@ export const TodoInput = () => {
       ) : (
         <button
           className={`px-8 bg-ivory-500 text-black border-2 border-black-500 ${
+            RalewayFont.className
+          } ${
             !titleInput
               ? 'bg-lightgray text-black border-2 opacity-50 cursor-not-allowed'
               : ''

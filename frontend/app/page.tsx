@@ -13,6 +13,7 @@ import { createAuthLink } from 'aws-appsync-auth-link';
 import awsconfig from './aws-exports';
 import awsconfiglocal from './aws-exports-local';
 import { useEffect, useState } from 'react';
+import { RalewayFont } from '@/lib/font';
 
 // ローカル環境かどうかを判断する関数
 function isLocalEnvironment() {
@@ -76,7 +77,7 @@ export default function Home() {
           <>
             <Header />
             <button
-              className="block w-full px-4 py-2 mb-4 rounded-md bg-gradient-to-r from-ivory-500 to-ivory-500 shadow-md text-black text-center hover:bg-lightgray transition duration-300"
+              className={`block w-full px-4 py-2 mb-4 rounded-md bg-gradient-to-r from-ivory-500 to-ivory-500 shadow-md text-black text-center hover:bg-lightgray transition duration-300 ${RalewayFont.className}`}
               onClick={() =>
                 Auth.signOut().then(() => setIsAuthenticated(false))
               }

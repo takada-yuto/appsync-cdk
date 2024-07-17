@@ -3,6 +3,7 @@ import {
   useDeleteTodoMutation,
   useToggleTodoMutation,
 } from '@/graphql/generated/generated-types';
+import { RampartOneFont } from '@/lib/font';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
 
@@ -42,7 +43,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
   if (!todoItem) return null;
 
   return (
-    <div className="flex items-center justify-between border border-gray-300 my-4 px-8 pt-4 w-full h-16">
+    <div className="flex items-center justify-between border border-gray-300 my-4 px-8 pt-4 pb-4 w-full h-16 shadow-md">
       <div className="flex items-center">
         <input
           type="checkbox"
@@ -50,7 +51,9 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           checked={todoItem.completed}
           onChange={handleToggleTodo}
         />
-        <span className="text-lg">{todoItem.title}</span>
+        <span className={`text-3xl ${RampartOneFont.className}`}>
+          {todoItem.title}
+        </span>
       </div>
       {deleteTodoStatus.loading ? (
         <div className="flex items-center">

@@ -1,13 +1,4 @@
-import { Rampart_One, Raleway } from 'next/font/google';
-
-const RampartOneFont = Rampart_One({
-  weight: '400',
-  subsets: ['latin'],
-});
-const RalewayFont = Raleway({
-  weight: '400',
-  subsets: ['latin'],
-});
+import { RalewayFont, RampartOneFont } from '@/lib/font';
 
 export const Header = () => {
   return (
