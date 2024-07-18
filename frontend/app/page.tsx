@@ -1,5 +1,4 @@
 'use client';
-import { Header } from '@/components/Header';
 import { TodoScreen } from '@/components/Todo/Screen';
 import {
   ApolloClient,
@@ -14,6 +13,8 @@ import awsconfig from './aws-exports';
 import awsconfiglocal from './aws-exports-local';
 import { useEffect, useState } from 'react';
 import { RalewayFont } from '@/lib/font';
+import Link from 'next/link';
+import { Header } from './@header/page';
 
 // ローカル環境かどうかを判断する関数
 function isLocalEnvironment() {
@@ -76,6 +77,7 @@ export default function Home() {
         {isAuthenticated ? (
           <>
             <Header />
+            <Link href="/todo">会社概要</Link>
             <button
               className={`block w-full px-4 py-2 mb-4 rounded-md bg-gradient-to-r from-ivory-500 to-ivory-500 shadow-md text-black text-center hover:bg-lightgray transition duration-300 ${RalewayFont.className}`}
               onClick={() =>
