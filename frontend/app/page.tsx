@@ -77,7 +77,6 @@ export default function Home() {
         {isAuthenticated ? (
           <>
             <Header />
-            <Link href="/todo">会社概要</Link>
             <button
               className={`block w-full px-4 py-2 mb-4 rounded-md bg-gradient-to-r from-ivory-500 to-ivory-500 shadow-md text-black text-center hover:bg-lightgray transition duration-300 ${RalewayFont.className}`}
               onClick={() =>
