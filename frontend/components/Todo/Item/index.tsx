@@ -29,7 +29,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
         setTodoItem({ ...todoItem, completed: !todoItem.completed });
       },
     });
-  }, [toggleTodoStatus.loading, todoItem, toggleTodo]);
+  }, [toggleTodoStatus, todoItem, toggleTodo]);
 
   const handleDeleteTodo = useCallback(() => {
     if (!todoItem) return;
@@ -45,12 +45,21 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
   return (
     <div className="flex items-center justify-between border border-gray-300 my-4 px-8 pt-4 pb-4 w-full h-16 shadow-md">
       <div className="flex items-center">
-        <input
-          type="checkbox"
-          className="form-checkbox h-6 w-6 text-blue-600 mr-4"
-          checked={todoItem.completed}
-          onChange={handleToggleTodo}
-        />
+        {toggleTodoStatus.loading ? (
+          <div className="flex items-center">
+            <svg
+              className="spinner-border animate-spin h-8 w-8 border-4 border-gray-500 border-t-transparent rounded-full"
+              viewBox="0 0 24 24"
+            ></svg>
+          </div>
+        ) : (
+          <input
+            type="checkbox"
+            className="form-checkbox h-6 w-6 text-blue-600 mr-4"
+            checked={todoItem.completed}
+            onChange={handleToggleTodo}
+          />
+        )}
         <span className={`text-3xl ${RampartOneFont.className}`}>
           {todoItem.title}
         </span>
