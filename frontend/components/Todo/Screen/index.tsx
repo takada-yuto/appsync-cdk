@@ -1,10 +1,8 @@
 import { useGetTodosQuery } from '@/graphql/generated/generated-types';
 import { TodoList } from '../List';
 import { TodoInput } from '../Input';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { TodoFilter } from '../Filter';
-import { ConvertAudio } from '@/components/ConvertAudio';
-import { Auth } from 'aws-amplify';
 
 export const FILTER_VALUES = [
   'ALL',

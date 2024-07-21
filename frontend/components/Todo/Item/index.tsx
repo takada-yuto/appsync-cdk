@@ -4,7 +4,6 @@ import {
   useToggleTodoMutation,
 } from '@/graphql/generated/generated-types';
 import { RampartOneFont } from '@/lib/font';
-import Image from 'next/image';
 import { useCallback, useState } from 'react';
 
 type TodoItemProps = {
