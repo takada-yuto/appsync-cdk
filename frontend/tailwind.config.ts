@@ -21,6 +21,14 @@ const config: Config = {
       fontFamily: {
         Raleway: ["Raleway", "sans-serif"],
       },
+      colors: {
+        ivory: "#F5F5DC",
+        lightblue: "#B0C4DE",
+        lightgray: "#778899",
+      },
+      fontFamily: {
+        Raleway: ["Raleway", "sans-serif"],
+      },
     },
   },
   plugins: [],
