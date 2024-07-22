@@ -2,44 +2,44 @@ import {
   Todo,
   useDeleteTodoMutation,
   useToggleTodoMutation,
-} from '@/graphql/generated/generated-types';
-import { RampartOneFont } from '@/lib/font';
-import { useCallback, useState } from 'react';
+} from "@/graphql/generated/generated-types"
+import { RampartOneFont } from "@/lib/font"
+import { useCallback, useState } from "react"
 
 type TodoItemProps = {
-  todo: Todo;
-};
+  todo: Todo
+}
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const [todoItem, setTodoItem] = useState<Todo | null>(todo);
+  const [todoItem, setTodoItem] = useState<Todo | null>(todo)
 
-  const [toggleTodo, toggleTodoStatus] = useToggleTodoMutation();
+  const [toggleTodo, toggleTodoStatus] = useToggleTodoMutation()
 
-  const [deleteTodo, deleteTodoStatus] = useDeleteTodoMutation();
+  const [deleteTodo, deleteTodoStatus] = useDeleteTodoMutation()
 
   const handleToggleTodo = useCallback(() => {
-    if (!todoItem) return;
-    if (toggleTodoStatus.loading) return;
+    if (!todoItem) return
+    if (toggleTodoStatus.loading) return
     toggleTodo({
       variables: {
         toggleTodoInput: { id: todoItem.id, completed: !todoItem.completed },
       },
       onCompleted: () => {
-        setTodoItem({ ...todoItem, completed: !todoItem.completed });
+        setTodoItem({ ...todoItem, completed: !todoItem.completed })
       },
-    });
-  }, [toggleTodoStatus, todoItem, toggleTodo]);
+    })
+  }, [toggleTodoStatus, todoItem, toggleTodo])
 
   const handleDeleteTodo = useCallback(() => {
-    if (!todoItem) return;
-    if (deleteTodoStatus.loading) return;
+    if (!todoItem) return
+    if (deleteTodoStatus.loading) return
     deleteTodo({
       variables: { id: todoItem.id },
       onCompleted: () => setTodoItem(null),
-    });
-  }, [deleteTodoStatus, todoItem, deleteTodo]);
+    })
+  }, [deleteTodoStatus, todoItem, deleteTodo])
 
-  if (!todoItem) return null;
+  if (!todoItem) return null
 
   return (
     <div className="flex items-center justify-between border border-gray-300 my-4 px-8 pt-4 pb-4 w-full h-16 shadow-md">
@@ -92,5 +92,5 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}

@@ -1,10 +1,10 @@
-import { RalewayFont } from '@/lib/font';
-import { FILTER_VALUES, Filter } from '../Screen';
+import { RalewayFont } from "@/lib/font"
+import { FILTER_VALUES, Filter } from "../Screen"
 
 type TodoFilterProps = {
-  filter: Filter;
-  setFilter: (filter: Filter) => void;
-};
+  filter: Filter
+  setFilter: (filter: Filter) => void
+}
 
 export const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
   return (
@@ -14,8 +14,8 @@ export const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
           key={filterValue}
           className={`px-4 py-2 rounded ${
             filter === filterValue
-              ? 'bg-lightgray text-black border-2'
-              : 'bg-ivory-500 text-black'
+              ? "bg-lightgray text-black border-2"
+              : "bg-ivory-500 text-black"
           } hover:bg-lightgray transition-colors duration-200 ${
             RalewayFont.className
           }`}
@@ -25,5 +25,5 @@ export const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
         </button>
       ))}
     </div>
-  );
-};
+  )
+}

@@ -1,17 +1,17 @@
-import * as cdk from 'aws-cdk-lib';
-import { CfnApp, CfnBranch } from 'aws-cdk-lib/aws-amplify';
-import * as cloudFront from 'aws-cdk-lib/aws-cloudfront';
-import { BuildSpec } from 'aws-cdk-lib/aws-codebuild';
-import { Platform } from 'aws-cdk-lib/aws-ecr-assets';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import { Construct } from 'constructs';
-import path = require('path');
+import * as cdk from "aws-cdk-lib"
+import { CfnApp, CfnBranch } from "aws-cdk-lib/aws-amplify"
+import * as cloudFront from "aws-cdk-lib/aws-cloudfront"
+import { BuildSpec } from "aws-cdk-lib/aws-codebuild"
+import { Platform } from "aws-cdk-lib/aws-ecr-assets"
+import * as s3 from "aws-cdk-lib/aws-s3"
+import { Construct } from "constructs"
+import path = require("path")
 // import * as amplify from "@aws-cdk/aws-amplify-alpha"
-import * as codebuild from 'aws-cdk-lib/aws-codebuild';
+import * as codebuild from "aws-cdk-lib/aws-codebuild"
 
 export class AppsyncPlaygroundFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+    super(scope, id, props)
 
     // // Lambda 関数の実行ロールを作成
     // const lambdaExecutionRole = new cdk.aws_iam.Role(

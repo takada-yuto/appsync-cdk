@@ -1,77 +1,77 @@
-'use client';
-import { TodoScreen } from '@/components/Todo/Screen';
+"use client"
+import { TodoScreen } from "@/components/Todo/Screen"
 import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
   InMemoryCache,
   createHttpLink,
-} from '@apollo/client';
-import { Amplify, Auth } from 'aws-amplify';
-import { createAuthLink } from 'aws-appsync-auth-link';
-import awsconfig from './aws-exports';
-import awsconfiglocal from './aws-exports-local';
-import { useEffect, useState } from 'react';
-import { RalewayFont } from '@/lib/font';
-import Link from 'next/link';
-import { Header } from './@header/page';
+} from "@apollo/client"
+import { Amplify, Auth } from "aws-amplify"
+import { createAuthLink } from "aws-appsync-auth-link"
+import awsconfig from "./aws-exports"
+import awsconfiglocal from "./aws-exports-local"
+import { useEffect, useState } from "react"
+import { RalewayFont } from "@/lib/font"
+import Link from "next/link"
+import { Header } from "@/components/Header"
 
 // ローカル環境かどうかを判断する関数
 function isLocalEnvironment() {
   // ブラウザ環境でのみ window が定義されているかを確認
   return (
-    typeof window !== 'undefined' &&
-    window.location.hostname.startsWith('localhost')
-  );
+    typeof window !== "undefined" &&
+    window.location.hostname.startsWith("localhost")
+  )
 }
 
 // Amplifyの設定
 if (isLocalEnvironment()) {
-  Amplify.configure(awsconfiglocal);
+  Amplify.configure(awsconfiglocal)
 } else {
-  Amplify.configure(awsconfig);
+  Amplify.configure(awsconfig)
 }
 
 const authConfig = {
   url: process.env.NEXT_PUBLIC_APPSYNC_API_URL,
-  region: 'ap-northeast-1',
+  region: "ap-northeast-1",
   auth: {
-    type: 'AMAZON_COGNITO_USER_POOLS',
+    type: "AMAZON_COGNITO_USER_POOLS",
     jwtToken: async () =>
       (await Auth.currentSession()).getIdToken().getJwtToken(),
   },
-};
+}
 
 const link = ApolloLink.from([
   // @ts-ignore
   createAuthLink(authConfig),
   createHttpLink({ uri: authConfig.url }),
-]);
+])
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: link,
-});
+})
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   useEffect(() => {
     // ログインチェック
     Auth.currentAuthenticatedUser()
       .then((user) => {
         // タスクを取得
-        setIsAuthenticated(true);
+        setIsAuthenticated(true)
       })
-      .catch((err) => {});
-  }, []);
+      .catch((err) => {})
+  }, [])
   return (
     <ApolloProvider client={client}>
       <div
         className="relative min-h-screen flex flex-col items-centerbg-cover bg-center"
         style={{
-          backgroundImage: 'url(/background.jpeg)',
-          backgroundSize: '30%',
-          backgroundPosition: 'center',
+          backgroundImage: "url(/background.jpeg)",
+          backgroundSize: "30%",
+          backgroundPosition: "center",
         }}
       >
         {isAuthenticated ? (
@@ -107,5 +107,5 @@ export default function Home() {
         )}
       </div>
     </ApolloProvider>
-  );
+  )
 }

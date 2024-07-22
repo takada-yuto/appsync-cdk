@@ -1,23 +1,23 @@
 import {
   namedOperations,
   useAddTodoMutation,
-} from '@/graphql/generated/generated-types';
-import { RalewayFont } from '@/lib/font';
-import { useCallback, useState } from 'react';
+} from "@/graphql/generated/generated-types"
+import { RalewayFont } from "@/lib/font"
+import { useCallback, useState } from "react"
 
 export const TodoInput = () => {
-  const [titleInput, setTitleInput] = useState('');
-  const clearTitleInput = useCallback(() => setTitleInput(''), []);
+  const [titleInput, setTitleInput] = useState("")
+  const clearTitleInput = useCallback(() => setTitleInput(""), [])
 
-  const [addTodo, { loading }] = useAddTodoMutation();
+  const [addTodo, { loading }] = useAddTodoMutation()
 
   const handleAddTodo = useCallback(() => {
     addTodo({
       variables: { addTodoInput: { title: titleInput } },
       refetchQueries: [namedOperations.Query.GetTodos],
       onCompleted: clearTitleInput,
-    });
-  }, [titleInput, addTodo, clearTitleInput]);
+    })
+  }, [titleInput, addTodo, clearTitleInput])
 
   return (
     <div className="flex space-x-6">
@@ -40,8 +40,8 @@ export const TodoInput = () => {
             RalewayFont.className
           } ${
             !titleInput
-              ? 'bg-lightgray text-black border-2 opacity-50 cursor-not-allowed'
-              : ''
+              ? "bg-lightgray text-black border-2 opacity-50 cursor-not-allowed"
+              : ""
           }`}
           disabled={!titleInput}
           onClick={handleAddTodo}
@@ -50,5 +50,5 @@ export const TodoInput = () => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}
