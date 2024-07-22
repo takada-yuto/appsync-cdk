@@ -96,6 +96,12 @@ export class AppsyncPlaygroundBackendStack extends cdk.Stack {
       autoVerify: { email: false },
     })
 
+    userPool.addDomain("appsync-playground-domain", {
+      cognitoDomain: {
+        domainPrefix: "appsync-authentication",
+      },
+    })
+
     // UserPoolクライアントを作成し、OAuth設定を行います。
     // ログインとログアウト時のURLを指定します。
     const userPoolClient = userPool.addClient(
