@@ -30,7 +30,7 @@ export const TodoScreen = () => {
       case "NOT COMPLETED":
         return data.getTodos.filter((todo) => !todo.completed)
       case "MUST":
-        return data.getTodos.filter((todo) => todo.title.includes("帰"))
+        return data.getTodos.filter((todo) => todo.title.includes("帰る"))
     }
   }, [data, filter])
 
