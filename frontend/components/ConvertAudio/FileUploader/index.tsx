@@ -85,6 +85,7 @@ export const FileUploader: FC<Props> = ({ onFileUpload }) => {
     [onFileUpload]
   )
 
+  // これをベースにする
   // useEffect(() => {
   //   const uploadFile = async () => {
   //     if (url && file) {
